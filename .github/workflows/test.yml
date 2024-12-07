@@ -25,7 +25,7 @@ jobs:
       - name: Start LDAP container for tests
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
-          compose-file: "./test/docker-compose.yml"
+          compose-file: "./test/docker-compose.yaml"
 
       - name: Run tests
         run: |
