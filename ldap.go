@@ -1,4 +1,4 @@
-// Wraps ldap.v3 for xk6 extension
+// Package ldap wraps ldap.v3 for xk6 extension
 package ldap
 
 import (
@@ -13,7 +13,7 @@ func init() {
 type Ldap struct {
 }
 
-func (l *Ldap) DialUrl(addr string) (*Conn, error) {
+func (l *Ldap) DialURL(addr string) (*Conn, error) {
 	c, err := ldap.DialURL(addr)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,8 @@ func (l *Ldap) NewSearchRequest(
 	typesOnly := false
 	control := []ldap.Control{}
 
-	lsr := ldap.NewSearchRequest(baseDn, _scope, derefAliases, sizeLimit, timeLimit, typesOnly, filter, attributes, control)
+	lsr := ldap.NewSearchRequest(baseDn, _scope, derefAliases,
+		sizeLimit, timeLimit, typesOnly, filter, attributes, control)
 
 	return lsr
 }
@@ -85,9 +86,7 @@ func (c *Conn) Search(searchRequest *ldap.SearchRequest) (*ldap.SearchResult, er
 	}
 
 	return result, nil
-
 }
-
 func (c *Conn) Close() {
 	c.conn.Close()
 }

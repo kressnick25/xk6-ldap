@@ -5,7 +5,7 @@ import ldap from 'k6/x/ldap'
 // It's a good idea not to open a connection per VU unless you specifically want to test that
 const ldapUrl = 'ldap://localhost:1389'
 console.log(`Dialing LDAP URL: ${ldapUrl}`)
-let ldapConn = ldap.dialUrl(ldapUrl)
+let ldapConn = ldap.dialURL(ldapUrl)
 
 let bindDn = 'cn=admin,dc=example,dc=org'
 let bindPassword = 'adminpassword'
