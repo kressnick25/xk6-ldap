@@ -1,3 +1,4 @@
+// Wraps ldap.v3 for xk6 extension
 package ldap
 
 import (
@@ -33,7 +34,14 @@ func (l *Ldap) NewDelRequest(dn string) *ldap.DelRequest {
 	return ldap.NewDelRequest(dn, []ldap.Control{})
 }
 
-func (l *Ldap) NewSearchRequest(baseDn string, scope string, sizeLimit int, timeLimit int, filter string, attributes []string) *ldap.SearchRequest {
+func (l *Ldap) NewSearchRequest(
+	baseDn string,
+	scope string,
+	sizeLimit int,
+	timeLimit int,
+	filter string,
+	attributes []string,
+) *ldap.SearchRequest {
 	var _scope int
 	switch scope {
 	case "BaseObject":

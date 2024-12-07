@@ -26,10 +26,6 @@ issues:
        - funlen
        - lll
        - forcetypeassert
-   - path: js\/modules\/k6\/html\/.*\.go
-     text: "exported: exported "
-     linters:
-       - revive
    - path: js\/modules\/k6\/http\/.*_test\.go
      linters:
        # k6/http module's tests are quite complex because they often have several nested levels.
@@ -80,7 +76,6 @@ linters:
     - errname
     - errorlint
     - exhaustive
-    - exportloopref
     - fatcontext
     - forbidigo
     - forcetypeassert
@@ -91,7 +86,6 @@ linters:
     - goconst
     - gocritic
     - gofmt
-    - gofumpt
     - goimports
     - gomoddirectives
     - goprintffuncname
@@ -115,7 +109,6 @@ linters:
     - prealloc
     - predeclared
     - promlinter
-    - revive
     - reassign
     - rowserrcheck
     - sqlclosecheck
