@@ -1,3 +1,4 @@
+import { check } from 'k6'
 import ldap from 'k6/x/ldap'
 
 
@@ -13,31 +14,43 @@ console.log(`Binding to LDAP with DN: ${bindDn}`)
 ldapConn.bind(bindDn, bindPassword)
 
 export default function () {
-    let filter = '(cn=*)'
-    let baseDn = 'dc=example,dc=org'
-    let attributes = ['cn', 'sn', 'objectClass'] // [] for all attributes
-    let scope = 'WholeSubtree' // options: BaseObject, SingleLevel, WholeSubtree
-    let sizeLimit = 0 // 0 for unlimited
-    let timeLimit = 0 // (seconds). 0 for unlimited
-
-    let searchReq = ldap.newSearchRequest(baseDn, scope, sizeLimit, timeLimit, filter, attributes) 
+    let searchReq = {
+        filter: '(cn=*)',
+        baseDn: 'dc=example,dc=org',
+        attributes: ['cn', 'sn', 'objectClass'], // [] for all attributes
+        scope: 'WholeSubtree', // options: BaseObject, SingleLevel, WholeSubtree
+        sizeLimit: 0, // 0 for unlimited
+        timeLimit: 0, // (seconds). 0 for unlimited
+        derefAliases: 0,
+        typesOnly: false
+    }
 
     let result = ldapConn.search(searchReq)
     console.log(`Search found ${result.entries.length} results`)
+    check(result.entries, {
+        'expected results': (r) => r.length === 3
+    })
 
-    let addRequest = ldap.newAddRequest('cn=test,dc=example,dc=org')
-    addRequest.attribute('sn', ['Smith'])
-    addRequest.attribute('objectClass', ['inetOrgPerson'])
+    let addAttributes = {
+        'sn': ['Smith'],
+        'objectClass': ['inetOrgPerson']
+    }
     console.log('Running Add request')
-    ldapConn.add(addRequest)
+    ldapConn.add('cn=test,dc=example,dc=org', addAttributes)
 
 
-    result = ldapConn.search(searchReq)
+    // use default search attributes
+    result = ldapConn.search({
+        filter: '(cn=*)',
+        baseDn: 'dc=example,dc=org'
+    })
     console.log(`Search found ${result.entries.length} results`)
-    
-    let delRequest = ldap.newDelRequest('cn=test,dc=example,dc=org')
+    check(result.entries, {
+        'expected results': (r) => r.length === 4
+    })
+
     console.log('Running Delete request')
-    ldapConn.del(addRequest)
+    ldapConn.del('cn=test,dc=example,dc=org')
 
 }
 
