@@ -3,6 +3,7 @@ package ldap
 
 import (
 	"fmt"
+
 	"go.k6.io/k6/js/modules"
 	"gopkg.in/ldap.v3"
 )
@@ -48,7 +49,6 @@ func (c *Conn) Bind(username string, password string) error {
 }
 
 func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
-
 	var _scope int
 	switch getOrDefault(args, "scope", "WholeSubtree") {
 	case "BaseObject":
@@ -62,14 +62,37 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 	// defaults
 	control := []ldap.Control{}
 
-	filter := getOrDefault(args, "filter", "*").(string)
-	baseDn := getOrDefault(args, "baseDn", "").(string)
-	derefAliases := int(getOrDefault(args, "derefAliases", int64(0)).(int64))
-	sizeLimit := int(getOrDefault(args, "sizeLimit", int64(0)).(int64))
-	timeLimit := int(getOrDefault(args, "timeLimit", int64(0)).(int64))
-	typesOnly := getOrDefault(args, "typesOnly", false).(bool)
+	errorMsg := "Invalid search argument type:"
 
-	argsAttributes := getOrDefault(args, "attributes", make([]interface{}, 0)).([]interface{})
+	filter, ok := getOrDefault(args, "filter", "*").(string)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "filter")
+	}
+	baseDn, ok := getOrDefault(args, "baseDn", "").(string)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "baseDn")
+	}
+	derefAliases, ok := getOrDefault(args, "derefAliases", int64(0)).(int64)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "derefAliases")
+	}
+	sizeLimit, ok := getOrDefault(args, "sizeLimit", int64(0)).(int64)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "sizeLimit")
+	}
+	timeLimit, ok := getOrDefault(args, "timeLimit", int64(0)).(int64)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "timeLimit")
+	}
+	typesOnly, ok := getOrDefault(args, "typesOnly", false).(bool)
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "typesOnly")
+	}
+
+	argsAttributes, ok := getOrDefault(args, "attributes", make([]interface{}, 0)).([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("%s %s", errorMsg, "attributes")
+	}
 	attributes := make([]string, len(argsAttributes))
 	for i, v := range argsAttributes {
 		attributes[i] = fmt.Sprint(v)
@@ -78,9 +101,9 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 	searchRequest := ldap.NewSearchRequest(
 		baseDn,
 		_scope,
-		derefAliases,
-		sizeLimit,
-		timeLimit,
+		int(derefAliases),
+		int(sizeLimit),
+		int(timeLimit),
 		typesOnly,
 		filter,
 		attributes,
