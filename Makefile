@@ -13,8 +13,9 @@ help:
 	echo
 	echo "Targets run by default are: `sed -n 's/^all: //p' ./Makefile | sed -e 's/ /, /g' | sed -e 's/\(.*\), /\1, and /'`"
 
+
 ## build: Builds a custom 'k6' with the local extension. 
-build:
+build: xk6-config
 	xk6 build --with $(shell go list -m)=.
 
 ## linter-config: Checks if the linter config exists, if not, downloads it from the main k6 repository.
@@ -24,6 +25,10 @@ linter-config:
 ## check-linter-version: Checks if the linter version is the same as the one specified in the linter config.
 check-linter-version:
 	(golangci-lint version | grep "version $(shell head -n 1 .golangci.yml | tr -d '\# ')") || echo "Your installation of golangci-lint is different from the one that is specified in k6's linter config (there it's $(shell head -n 1 .golangci.yml | tr -d '\# ')). Results could be different in the CI."
+
+## xk6-config: checks that xk6 is installed
+xk6-config:
+	command -v xk6 2>&1 > /dev/null || $ go install go.k6.io/xk6/cmd/xk6@latest
 
 ## test: Executes any tests.
 test:
