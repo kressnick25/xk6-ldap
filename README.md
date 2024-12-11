@@ -20,7 +20,7 @@ Utils
 
 To use this extension, you'll need to build k6 with the extension enabled. Follow these steps:
 
-1. Clone this repository
+1. Install [xk6](https://github.com/grafana/xk6)
 2. Build k6 with the extension using xk6:
 ```bash
 xk6 build --with github.com/kressnick25/xk6-ldap
