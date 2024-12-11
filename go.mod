@@ -1,4 +1,4 @@
-module xk6-ldap
+module github.com/kressnick25/xk6-ldap
 
 go 1.22.1
 
