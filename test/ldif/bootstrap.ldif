@@ -1,0 +1,15 @@
+dn: uid=user01,dc=example,dc=org
+changetype: add
+cn: user01
+sn: u
+objectClass: top
+objectClass: inetOrgPerson
+userPassword: {SSHA}NTA2MzExMzIzZDU0MzUyOTZlODAyMmJlNDllY2YwZmRiYzYxYTNmN1dCenA2
+
+dn: uid=user02,dc=example,dc=org
+changetype: add
+cn: user02
+sn: u
+objectClass: top
+objectClass: inetOrgPerson
+userPassword: {SSHA}MWU4NjcxNTE5MWJmYzJjODllZjljZGNmZTlkNmI4MDMyY2FjMjhmMEEwMVRl
