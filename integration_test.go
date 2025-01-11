@@ -57,6 +57,7 @@ func TestExamplesInputOutput(t *testing.T) {
 	// it could be a file (ending with .js) or a directory
 	examples := []string{
 		"./examples/example.js",
+		"./examples/example-tls.js",
 	}
 
 	for _, path := range examples {

@@ -2,10 +2,11 @@
 package ldap
 
 import (
+	"crypto/tls"
 	"fmt"
 
+	"github.com/go-ldap/ldap/v3"
 	"go.k6.io/k6/js/modules"
-	"gopkg.in/ldap.v3"
 )
 
 func init() {
@@ -14,8 +15,15 @@ func init() {
 
 type Ldap struct{}
 
-func (l *Ldap) DialURL(addr string) (*Conn, error) {
-	c, err := ldap.DialURL(addr)
+func (l *Ldap) DialURL(addr string, opts map[string]bool) (*Conn, error) {
+	var dialOpts []ldap.DialOpt
+	insecureOptVal, ok := opts["insecureSkipTlsVerify"]
+	if ok && insecureOptVal {
+        conf := &tls.Config{InsecureSkipVerify: true} //nolint:all
+		dialOpts = append(dialOpts, ldap.DialWithTLSConfig(conf))
+	}
+
+	c, err := ldap.DialURL(addr, dialOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,8 +126,8 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 	return result, nil
 }
 
-func (c *Conn) Close() {
-	c.conn.Close()
+func (c *Conn) Close() error {
+	return c.conn.Close()
 }
 
 func getOrDefault(m map[string]interface{}, key string, defaultVal interface{}) interface{} {

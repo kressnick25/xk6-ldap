@@ -3,15 +3,22 @@ networks:
     driver: bridge
 services:
   openldap:
-    image: bitnami/openldap:2
+    image: "osixia/openldap:1.5.0"
+    command: ['--copy-service']
+    hostname: localhost
     ports:
       # ports > 1000 for non-root
-      - '1389:1389'
-      - '1636:1636'
+      - '1389:389'
+      - '1636:636'
+    privileged: true
+    volumes:
+      - ${PWD}/test/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
     environment:
-      - LDAP_ADMIN_USERNAME=admin
-      - LDAP_ADMIN_PASSWORD=adminpassword
-      - LDAP_USERS=user01,user02
-      - LDAP_PASSWORDS=password1,password2
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_BASE_DN: ""
+      LDAP_DOMAIN: example.org
+      LDAP_ORGANISATION: "example inc"
+      LDAP_TLS: true
+      LDAP_TLS_VERIFY_CLIENT: try
     networks:
       - my-network

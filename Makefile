@@ -34,6 +34,10 @@ xk6-config:
 test:
 	go test -timeout 60s ./...
 
+# run integration test
+itest:
+	./test/test.sh
+
 ## lint: Runs the linters.
 lint: linter-config check-linter-version
 	echo "Running linters..."

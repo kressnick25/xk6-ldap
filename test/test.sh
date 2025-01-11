@@ -5,6 +5,7 @@ make build
 
 podman compose -f test/compose.yaml up --force-recreate -d 
 # TODO some way to check LDAP container is ready
-sleep 3
+sleep 5
 
 ./k6 run ./examples/example.js
+./k6 run ./examples/example-tls.js
