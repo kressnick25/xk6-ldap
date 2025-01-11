@@ -32,11 +32,9 @@ xk6 build --with github.com/kressnick25/xk6-ldap
 ```javascript
 import ldap from 'k6/x/ldap';
 
-// Create LDAP connection using an LDAPURL
-// The connection will be established on the first command call.
-const conn = ldap.dialURL('ldaps://your-ldap-server:636');
-
 export default function () {
+  // Create LDAP connection using an LDAP URL
+  const conn = ldap.dialURL('ldaps://your-ldap-server:636');
 
   try {
     // Bind to LDAP server
@@ -57,13 +55,43 @@ export default function () {
     const result = conn.search(searchRequest);
     console.log(result.entries);
   } finally {
-    // Always close the connection
     conn.close();
   }
 }
 ```
 
 See also `examples/example.js`
+
+### Note about connection management
+With k6's lifecycle management, there is currently no good way to share a connection accross multiple VUs.
+
+You can open the connecion in the init scope, and the connection will be shared:
+```javascript
+const conn = ldap.dialURL('ldaps://your-server')
+
+export default function () {
+    conn.bind('cn=admin,dc=example,dc=org')
+}
+```
+but keep in mind that:
+- k6 may run the init scope multiple times, opening multiple connections
+- there is no way to close all connection handles at the end of the test run
+
+Another option is to open a connection per VU:
+```javascript
+
+export default function () {
+    let conn
+    try {
+        conn = ldap.dialURL('ldaps://your-server')
+        conn.bind('cn=admin,dc=example,dc=org')
+    } finally {
+        conn.close()
+    }
+}
+```
+- this allows the connection to be consistently closed.
+- this may be limited by the number of concurrent connections your LDAP server can handle
 
 ## Contributing
 

@@ -1,19 +1,27 @@
 import { check } from 'k6'
 import ldap from 'k6/x/ldap'
 
-
-// Open the connection in the init section, called once per run
-// It's a good idea not to open a connection per VU unless you specifically want to test that
 const ldapUrl = 'ldap://localhost:1389'
-console.log(`Dialing LDAP URL: ${ldapUrl}`)
-let ldapConn = ldap.dialURL(ldapUrl)
-
-let bindDn = 'cn=admin,dc=example,dc=org'
-let bindPassword = 'adminpassword'
-console.log(`Binding to LDAP with DN: ${bindDn}`)
-ldapConn.bind(bindDn, bindPassword)
 
 export default function () {
+    let ldapConn
+    try {
+        console.log(`Dialing LDAP URL: ${ldapUrl}`)
+        ldapConn = ldap.dialURL(ldapUrl)
+
+        let bindDn = 'cn=admin,dc=example,dc=org'
+        let bindPassword = 'adminpassword'
+        console.log(`Binding to LDAP with DN: ${bindDn}`)
+        ldapConn.bind(bindDn, bindPassword)
+
+        test(ldapConn)
+    } finally {
+        ldapConn.close()
+        console.log('LDAP connection closed')
+    }
+}
+
+function test(ldapConn) {
     let searchReq = {
         filter: '(cn=*)',
         baseDn: 'dc=example,dc=org',
@@ -54,7 +62,3 @@ export default function () {
 
 }
 
-export function teardown() {
-    ldapConn.close()
-    console.log('LDAP connection closed')
-}
