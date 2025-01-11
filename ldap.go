@@ -126,7 +126,7 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 }
 
 func (c *Conn) Close() error {
-    return c.conn.Close()
+	return c.conn.Close()
 }
 
 func getOrDefault(m map[string]interface{}, key string, defaultVal interface{}) interface{} {
