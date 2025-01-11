@@ -19,7 +19,8 @@ func (l *Ldap) DialURL(addr string, opts map[string]bool) (*Conn, error) {
 	var dialOpts []ldap.DialOpt
 	insecureOptVal, ok := opts["insecureSkipTlsVerify"]
 	if ok && insecureOptVal {
-		dialOpts = append(dialOpts, ldap.DialWithTLSConfig(&tls.Config{InsecureSkipVerify: true}))
+        conf := &tls.Config{InsecureSkipVerify: true} //nolint:all
+		dialOpts = append(dialOpts, ldap.DialWithTLSConfig(conf))
 	}
 
 	c, err := ldap.DialURL(addr, dialOpts...)
