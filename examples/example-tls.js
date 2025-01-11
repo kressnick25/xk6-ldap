@@ -1,39 +1,46 @@
 import { check } from 'k6'
 import ldap from 'k6/x/ldap'
 
-
 const ldapUrl = 'ldaps://localhost:1636'
-console.log(`Dialing LDAP URL: ${ldapUrl}`)
-
-let ldapConn;
-try {
-    // Should fail, container started with self-signed cert
-    ldapConn = ldap.dialURL(ldapUrl, {
-        insecureSkipTlsVerify: false
-    })
-
-    throw new Error(tlsErrMsg)
-} catch (err) {
-    if (err.message.includes("tls: failed to verify certificate")) {
-        // expected
-        console.debug("This error is expected: " + err)
-    } else {
-        console.error("TLS verification should have thrown, but didn't")
-    }
-
-    // retry, ignoring certificate errors
-    ldapConn = ldap.dialURL(ldapUrl, {
-        // DO NOT EVER DO THIS IN PRODUCTION
-        insecureSkipTlsVerify: true
-    })
-}
-
-let bindDn = 'cn=admin,dc=example,dc=org'
-let bindPassword = 'adminpassword'
-console.log(`Binding to LDAP with DN: ${bindDn}`)
-ldapConn.bind(bindDn, bindPassword)
 
 export default function () {
+    let ldapConn
+    console.log(`Dialing LDAP URL: ${ldapUrl}`)
+    try {
+        // Should fail, container started with self-signed cert
+        ldapConn = ldap.dialURL(ldapUrl, {
+            insecureSkipTlsVerify: false
+        })
+
+        throw new Error(tlsErrMsg)
+    } catch (err) {
+        if (err.message.includes("tls: failed to verify certificate")) {
+            // expected
+            console.debug("This error is expected: " + err)
+        } else {
+            console.error("TLS verification should have thrown, but didn't")
+        }
+
+        // retry, ignoring certificate errors
+        ldapConn = ldap.dialURL(ldapUrl, {
+            // DO NOT EVER DO THIS IN PRODUCTION
+            insecureSkipTlsVerify: true
+        })
+    }
+    try {
+        let bindDn = 'cn=admin,dc=example,dc=org'
+        let bindPassword = 'adminpassword'
+        console.log(`Binding to LDAP with DN: ${bindDn}`)
+        ldapConn.bind(bindDn, bindPassword)
+        
+        test(ldapConn)
+    } finally {
+        ldapConn.close()
+        console.log('LDAP connection closed')
+    }
+}
+
+function test(ldapConn) {
     let searchReq = {
         filter: '(cn=*)',
         baseDn: 'dc=example,dc=org',
@@ -74,7 +81,3 @@ export default function () {
 
 }
 
-export function teardown() {
-    ldapConn.close()
-    console.log('LDAP connection closed')
-}
