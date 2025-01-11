@@ -121,6 +121,8 @@ Establishes a connection to an LDAP server.
 
 **Parameters:**
 - `address` (string): LDAP URL in the format `ldap://host:port`
+- `dialOpts` (object, optional):
+    - `insecureSkipTlsVerify` (boolean): controls whether the server's TLS certificate chain and hostname is validated. DO NOT USE IN PRODUCTION
 
 **Returns:**
 - Connection object
