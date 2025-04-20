@@ -56,7 +56,7 @@ func (c *Conn) Bind(username string, password string) error {
 	return c.conn.Bind(username, password)
 }
 
-func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
+func (c *Conn) Search(args map[string]any) (*ldap.SearchResult, error) {
 	var _scope int
 	switch getOrDefault(args, "scope", "WholeSubtree") {
 	case "BaseObject":
@@ -97,7 +97,7 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 		return nil, fmt.Errorf("%s %s", errorMsg, "typesOnly")
 	}
 
-	argsAttributes, ok := getOrDefault(args, "attributes", make([]interface{}, 0)).([]interface{})
+	argsAttributes, ok := getOrDefault(args, "attributes", make([]any, 0)).([]any)
 	if !ok {
 		return nil, fmt.Errorf("%s %s", errorMsg, "attributes")
 	}
@@ -126,7 +126,7 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 	return result, nil
 }
 
-func (c *Conn) Modify(dn string, args map[string]map[string]interface{}) error {
+func (c *Conn) Modify(dn string, args map[string]map[string]any) error {
 	modify := ldap.NewModifyRequest(dn, nil)
 
 	for attribute, v := range args {
@@ -154,7 +154,7 @@ func (c *Conn) Close() error {
 	return c.conn.Close()
 }
 
-func getOrDefault(m map[string]interface{}, key string, defaultVal interface{}) interface{} {
+func getOrDefault(m map[string]any, key string, defaultVal any) any {
 	val, ok := m[key]
 	if ok {
 		return val
