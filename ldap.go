@@ -126,21 +126,21 @@ func (c *Conn) Search(args map[string]any) (*ldap.SearchResult, error) {
 	return result, nil
 }
 
-func (c *Conn) Modify(dn string, args map[string]map[string]string) error {
+func (c *Conn) Modify(dn string, patches []map[string]string) error {
 	modify := ldap.NewModifyRequest(dn, nil)
 
-	for attribute, v := range args {
-		switch v["operation"] {
+	for _, patch := range patches {
+		v := patch["value"]
+		f := patch["field"]
+		switch patch["operation"] {
 		case "add":
-			modify.Add(attribute, []string{v["value"]})
+			modify.Add(f, []string{v})
 		case "replace":
-			modify.Replace(attribute, []string{v["value"]})
-		case "increment":
-			modify.Increment(attribute, v["value"])
+			modify.Replace(f, []string{v})
 		case "delete":
-			modify.Delete(attribute, make([]string, 0))
+			modify.Delete(f, make([]string, 0))
 		default:
-			return fmt.Errorf("Unsupported LDAP Modify operation for attribute %s", attribute)
+			return fmt.Errorf("Unsupported LDAP Modify operation for attribute %s", f)
 		}
 	}
 

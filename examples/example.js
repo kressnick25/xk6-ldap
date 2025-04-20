@@ -59,19 +59,18 @@ function test(ldapConn) {
     })
 
     console.log('Running Modify request')
-    ldapConn.modify(dn, {
-        sn: {
-            operation: 'replace',
-            value: 'Doe',
-        },
-        mail: {
+    ldapConn.modify(dn, [
+        { operation: 'replace', field: 'sn', value: 'Doe' },
+        {
             operation: 'add',
+            field: 'mail',
             value: 'dennis@example.com',
         },
-        givenName: {
+        {
             operation: 'delete',
+            field: 'givenName',
         },
-    })
+    ])
 
     console.log('Running Delete request')
     ldapConn.del(dn)
