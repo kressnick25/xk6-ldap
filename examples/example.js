@@ -42,7 +42,11 @@ function test(ldapConn) {
     let addAttributes = {
         sn: ['Smith'],
         givenName: ['Joe'],
-        objectClass: ['inetOrgPerson'],
+        objectClass: ['inetOrgPerson', 'posixAccount'],
+        uid: ['10'],
+        uidNumber: ['10'],
+        gidNumber: ['1000'],
+        homeDirectory: ['/home'],
     }
     let dn = `cn=test-${Date.now()},dc=example,dc=org`
     console.log('Running Add request')
@@ -69,6 +73,11 @@ function test(ldapConn) {
         {
             operation: 'delete',
             field: 'givenName',
+        },
+        {
+            operation: 'increment',
+            field: 'gidNumber',
+            value: '1',
         },
     ])
 

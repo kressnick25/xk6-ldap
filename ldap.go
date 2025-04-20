@@ -137,6 +137,8 @@ func (c *Conn) Modify(dn string, patches []map[string]string) error {
 			modify.Add(f, []string{v})
 		case "replace":
 			modify.Replace(f, []string{v})
+		case "increment":
+			modify.Increment(f, v)
 		case "delete":
 			modify.Delete(f, make([]string, 0))
 		default:
