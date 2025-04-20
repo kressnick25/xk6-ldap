@@ -19,7 +19,7 @@ func (l *Ldap) DialURL(addr string, opts map[string]bool) (*Conn, error) {
 	var dialOpts []ldap.DialOpt
 	insecureOptVal, ok := opts["insecureSkipTlsVerify"]
 	if ok && insecureOptVal {
-        conf := &tls.Config{InsecureSkipVerify: true} //nolint:all
+		conf := &tls.Config{InsecureSkipVerify: true} //nolint:all
 		dialOpts = append(dialOpts, ldap.DialWithTLSConfig(conf))
 	}
 
@@ -124,6 +124,30 @@ func (c *Conn) Search(args map[string]interface{}) (*ldap.SearchResult, error) {
 	}
 
 	return result, nil
+}
+
+func (c *Conn) Modify(dn string, args map[string]map[string]interface{}) error {
+	modify := ldap.NewModifyRequest(dn, nil)
+
+	for attribute, v := range args {
+		switch v["operation"] {
+		case "add":
+			modify.Add(attribute, v["value"].([]string))
+		case "replace":
+			modify.Replace(attribute, v["value"].([]string))
+		case "delete":
+			modify.Delete(attribute, make([]string, 0))
+		default:
+			return fmt.Errorf("Unsupported LDAP Modify operation for attribute %s", attribute)
+		}
+	}
+
+	err := c.conn.Modify(modify)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (c *Conn) Close() error {
