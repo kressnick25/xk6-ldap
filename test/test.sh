@@ -3,7 +3,7 @@ set -e
 
 make build
 
-podman compose -f test/compose.yaml up --force-recreate -d 
+docker compose -f test/compose.yaml up --force-recreate -d
 # TODO some way to check LDAP container is ready
 sleep 5
 

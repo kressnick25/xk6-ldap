@@ -126,15 +126,17 @@ func (c *Conn) Search(args map[string]any) (*ldap.SearchResult, error) {
 	return result, nil
 }
 
-func (c *Conn) Modify(dn string, args map[string]map[string]any) error {
+func (c *Conn) Modify(dn string, args map[string]map[string]string) error {
 	modify := ldap.NewModifyRequest(dn, nil)
 
 	for attribute, v := range args {
 		switch v["operation"] {
 		case "add":
-			modify.Add(attribute, v["value"].([]string))
+			modify.Add(attribute, []string{v["value"]})
 		case "replace":
-			modify.Replace(attribute, v["value"].([]string))
+			modify.Replace(attribute, []string{v["value"]})
+		case "increment":
+			modify.Increment(attribute, v["value"])
 		case "delete":
 			modify.Delete(attribute, make([]string, 0))
 		default:
@@ -160,4 +162,12 @@ func getOrDefault(m map[string]any, key string, defaultVal any) any {
 		return val
 	}
 	return defaultVal
+}
+
+func anyToStrSlice(a []any) []string {
+	res := make([]string, len(a))
+	for i, v := range a {
+		res[i] = fmt.Sprint(v)
+	}
+	return res
 }

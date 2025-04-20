@@ -30,35 +30,49 @@ function test(ldapConn) {
         sizeLimit: 0, // 0 for unlimited
         timeLimit: 0, // (seconds). 0 for unlimited
         derefAliases: 0,
-        typesOnly: false
+        typesOnly: false,
     }
 
     let result = ldapConn.search(searchReq)
     console.log(`Search found ${result.entries.length} results`)
     check(result.entries, {
-        'expected results': (r) => r.length === 2
+        'expected results': (r) => r.length === 2,
     })
 
     let addAttributes = {
-        'sn': ['Smith'],
-        'objectClass': ['inetOrgPerson']
+        sn: ['Smith'],
+        givenName: ['Joe'],
+        objectClass: ['inetOrgPerson'],
     }
+    let dn = `cn=test-${Date.now()},dc=example,dc=org`
     console.log('Running Add request')
-    ldapConn.add('cn=test,dc=example,dc=org', addAttributes)
-
+    ldapConn.add(dn, addAttributes)
 
     // use default search attributes
     result = ldapConn.search({
         filter: '(cn=*)',
-        baseDn: 'dc=example,dc=org'
+        baseDn: 'dc=example,dc=org',
     })
     console.log(`Search found ${result.entries.length} results`)
     check(result.entries, {
-        'expected results': (r) => r.length === 3
+        'expected results': (r) => r.length === 3,
+    })
+
+    console.log('Running Modify request')
+    ldapConn.modify(dn, {
+        sn: {
+            operation: 'replace',
+            value: 'Doe',
+        },
+        mail: {
+            operation: 'add',
+            value: 'dennis@example.com',
+        },
+        givenName: {
+            operation: 'delete',
+        },
     })
 
     console.log('Running Delete request')
-    ldapConn.del('cn=test,dc=example,dc=org')
-
+    ldapConn.del(dn)
 }
-
