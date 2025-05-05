@@ -81,6 +81,25 @@ function test(ldapConn) {
         },
     ])
 
+    result = ldapConn.search({
+        filter: '(mail=dennis@example.com)',
+        baseDn: 'dc=example,dc=org',
+    })
+    console.log(`Search found ${result.entries.length} results`)
+    check(result.entries, {
+        'expected results': (r) => r.length === 1,
+        'attributes are updated': (r) => {
+            let attributes = r[0].attributes
+            let sn = attributes.filter(i => i.name === 'sn')[0]
+            let gidNumber = attributes.filter(i => i.name === 'gidNumber')[0]
+            let givenName = attributes.filter(i => i.name === 'givenName')
+
+            return sn.values[0] === 'Doe' &&
+                gidNumber.values[0] === '1001' &&
+                givenName.length === 0
+        },
+    })
+
     console.log('Running Delete request')
     ldapConn.del(dn)
 }
