@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/go-ldap/ldap/v3 v3.4.9
 	github.com/stretchr/testify v1.10.0
-	go.k6.io/k6 v0.58.0
+	go.k6.io/k6 v0.56.0
 )
 
 require (
@@ -40,7 +40,11 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/grafana/sobek v0.0.0-20250320150027-203dc85b6d98 // indirect
 	github.com/grafana/xk6-dashboard v0.7.5 // indirect
+	github.com/grafana/xk6-output-opentelemetry v0.3.0 // indirect
+	github.com/grafana/xk6-output-prometheus-remote v0.5.0 // indirect
 	github.com/grafana/xk6-redis v0.3.3 // indirect
+	github.com/grafana/xk6-webcrypto v0.5.0 // indirect
+	github.com/grafana/xk6-websockets v0.7.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
