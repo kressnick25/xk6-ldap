@@ -98,14 +98,10 @@ github.com/grafana/xk6-dashboard v0.7.5 h1:TcILyffT/Ea/XD7xG1jMA5lwtusOPRbEQsQDH
 github.com/grafana/xk6-dashboard v0.7.5/go.mod h1:Y75F8xmgCraKT+pBzFH6me9AyH5PkXD+Bxo1dm6Il/M=
 github.com/grafana/xk6-output-opentelemetry v0.3.0 h1:dmclGBFtFVRJijqLncpu2dKVIIvx1GS3y6sQGg4Khl8=
 github.com/grafana/xk6-output-opentelemetry v0.3.0/go.mod h1:5uUg0J2dxrw+DkC9fCsfiKv2jTpccn7nz6vGmRUr4f8=
-github.com/grafana/xk6-output-prometheus-remote v0.5.0 h1:vRCj0a4sxKRP5IVWqZuMaEsGVLWWtBEYtx0M2cvEFDs=
-github.com/grafana/xk6-output-prometheus-remote v0.5.0/go.mod h1:esXXthLoVp9JUdGkECRthESVYu0TQTR24wrx2nRM9ak=
+github.com/grafana/xk6-output-prometheus-remote v0.5.1 h1:zsB0x/1kuArqnDNh419UWdMUYZwrzqtfjTUswWPIHhI=
+github.com/grafana/xk6-output-prometheus-remote v0.5.1/go.mod h1:esXXthLoVp9JUdGkECRthESVYu0TQTR24wrx2nRM9ak=
 github.com/grafana/xk6-redis v0.3.3 h1:9QiS4OUjYMzvriGzbqrhCn9i/kENmCkibZE+xCJSdPk=
 github.com/grafana/xk6-redis v0.3.3/go.mod h1:YL1qfBZXW4o2aAF6/gRa/N9oGoumUg7cJzzCHLxoCOw=
-github.com/grafana/xk6-webcrypto v0.5.0 h1:a5NMG/4itLDWprn5XbGaARwUdGPy9wO9z35Z7bDjG1k=
-github.com/grafana/xk6-webcrypto v0.5.0/go.mod h1:yZMp9ZjcxLZML2ljcK6CxTI+XTP59vivtKszaH5xIE4=
-github.com/grafana/xk6-websockets v0.7.2 h1:hwZfk+1zMLJZ2vXqy8WqShG4toHgY6Gw7EdFU37dSXg=
-github.com/grafana/xk6-websockets v0.7.2/go.mod h1:91oE+otLmjYsPwBvxfv1+6tmoXKPZRPOXTnJveAs5Nk=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 h1:UH//fgunKIs4JdUbpDl1VZCDaL56wXCB/5+wF6uHfaI=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0/go.mod h1:g5qyo/la0ALbONm6Vbp88Yd8NsDy6rZz+RcrMPxvld8=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 h1:e9Rjr40Z98/clHv5Yg79Is0NtosR5LXRvdr7o/6NwbA=
@@ -227,8 +223,8 @@ github.com/xyproto/randomstring v1.0.5/go.mod h1:rgmS5DeNXLivK7YprL0pY+lTuhNQW3i
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
-go.k6.io/k6 v0.56.0 h1:aTJSI39RTuB78eB9/VcMieTXAHxeSF7+4DXr39lheb8=
-go.k6.io/k6 v0.56.0/go.mod h1:cPEOdGLfMi+rrwBXxcFhBucFi2P4KRZc6XmnwVgBRHM=
+go.k6.io/k6 v0.57.0 h1:l1jivNtbCQYNhgvl+O6SfzwabqNlazr8OLYjxm8lNGw=
+go.k6.io/k6 v0.57.0/go.mod h1:AXTOq8X59VqigGvoI59Al/+8F/5h4iHO0CoX0lNbq/4=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
 go.opentelemetry.io/auto/sdk v1.1.0/go.mod h1:3wSPjt5PWp2RhlCcmmOial7AvC4DQqZb7a7wCow3W8A=
 go.opentelemetry.io/otel v1.35.0 h1:xKWKPxrxB6OtMCbmMY021CqC45J+3Onta9MqjhnusiQ=

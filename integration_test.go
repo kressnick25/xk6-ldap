@@ -2,30 +2,13 @@ package ldap
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-	"go.k6.io/k6/cmd"
-	k6Tests "go.k6.io/k6/cmd/tests"
-	"go.k6.io/k6/errext/exitcodes"
-	"go.k6.io/k6/lib/fsext"
 )
-
-func getSingleFileTestState(tb testing.TB, script string, cliFlags []string, expExitCode exitcodes.ExitCode) *k6Tests.GlobalTestState {
-	if cliFlags == nil {
-		cliFlags = []string{"-v", "--log-output=stdout"}
-	}
-
-	ts := k6Tests.NewGlobalTestState(tb)
-	require.NoError(tb, fsext.WriteFile(ts.FS, filepath.Join(ts.Cwd, "test.js"), []byte(script), 0o644))
-	ts.CmdArgs = append(append([]string{"k6", "run"}, cliFlags...), "test.js")
-	ts.ExpectedExitCode = int(expExitCode)
-
-	return ts
-}
 
 // TestExamplesInputOutput runs same k6's scripts that we have in example folder
 // it check that output contains/not contains cetane things
@@ -70,23 +53,24 @@ func TestExamplesInputOutput(t *testing.T) {
 			t.Run(name, func(t *testing.T) {
 				t.Parallel()
 
-				script, err := os.ReadFile(filepath.Clean(file)) //nolint:forbidigo // we read an example directly
-				require.NoError(t, err)
+				cmd := exec.Command("./k6", "run", "-v", "--log-output=stdout", file)
+				var stdout, stderr strings.Builder
+				cmd.Stdout = &stdout
+				cmd.Stderr = &stderr
 
-				ts := getSingleFileTestState(t, string(script), []string{"-v", "--log-output=stdout"}, 0)
-
-				cmd.ExecuteWithGlobalState(ts.GlobalState)
-
-				stdout := ts.Stdout.String()
+				err := cmd.Run()
+				if err != nil {
+					panic(err)
+				}
 
 				for _, s := range outputShouldContain {
-					assert.Contains(t, stdout, s)
+					assert.Contains(t, stdout.String(), s)
 				}
 				for _, s := range outputShouldNotContain {
-					assert.NotContains(t, stdout, s)
+					assert.NotContains(t, stdout.String(), s)
 				}
 
-				assert.Empty(t, ts.Stderr.String())
+				assert.Empty(t, stderr.String())
 			})
 		}
 	}

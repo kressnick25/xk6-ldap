@@ -1,5 +1,6 @@
 MAKEFLAGS += --silent
 GOLANGCI_CONFIG ?= .golangci.yml
+DOCKER=podman
 
 all: clean lint test build
 
@@ -32,11 +33,16 @@ xk6-config:
 
 ## test: Executes any tests.
 test:
-	go test -timeout 60s ./...
+	go test -count=1 -timeout 60s ./...
 
-# run integration test
-itest:
-	./test/test.sh
+## testcontainer: launch test dependencies
+testcontainer:
+	$(DOCKER) compose -f test/compose.yaml up --force-recreate -d
+
+## fulltest: full test suite
+fulltest: build testcontainer
+	echo "Waiting for test containers to start..." && sleep 5
+	make test
 
 ## lint: Runs the linters.
 lint: linter-config check-linter-version
