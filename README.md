@@ -170,6 +170,32 @@ Adds a new entry to the LDAP directory.
 - `dn` (string): Distinguished Name for the new entry
 - `attributes` (object): Map of attribute names to arrays of values
 
+#### modify(dn: string, patches: object[])
+Modify attributes of an existing entry.
+
+**Parameters:**
+- `dn` (string): Distinguished Name for the new entry
+- `patches` (object[]): Array of patch operation objects to apply. Each patch object must have the fields:
+    - operation: add|delete|replace|increment
+    - field: name of attribute to modify
+    - value: value to assign to the attibute (not required for delete operation)
+
+Example:
+```js
+ldapConn.modify(dn, [
+    {
+        operation: 'replace',
+        field: 'mail',
+        value: 'dennis@example.com'
+    },
+    {
+        operation: 'add',
+        field: 'givenName',
+        value: 'Stephen'
+    }
+])
+```
+
 #### del(dn: string)
 Deletes an entry from the LDAP directory.
 
