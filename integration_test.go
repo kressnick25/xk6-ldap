@@ -53,7 +53,7 @@ func TestExamplesInputOutput(t *testing.T) {
 			t.Run(name, func(t *testing.T) {
 				t.Parallel()
 
-				cmd := exec.Command("./k6", "run", "-v", "--log-output=stdout", file)
+				cmd := exec.Command("./k6", "run", "-v", "--log-output=stdout", file) /* #nosec G204 */
 				var stdout, stderr strings.Builder
 				cmd.Stdout = &stdout
 				cmd.Stderr = &stderr
