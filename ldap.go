@@ -142,7 +142,7 @@ func (c *Conn) Modify(dn string, patches []map[string]string) error {
 		case "delete":
 			modify.Delete(f, make([]string, 0))
 		default:
-			return fmt.Errorf("Unsupported LDAP Modify operation for attribute %s", f)
+			return fmt.Errorf("unsupported LDAP Modify operation for attribute %s", f)
 		}
 	}
 
@@ -164,12 +164,4 @@ func getOrDefault(m map[string]any, key string, defaultVal any) any {
 		return val
 	}
 	return defaultVal
-}
-
-func anyToStrSlice(a []any) []string {
-	res := make([]string, len(a))
-	for i, v := range a {
-		res[i] = fmt.Sprint(v)
-	}
-	return res
 }
