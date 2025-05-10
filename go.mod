@@ -3,7 +3,7 @@ module github.com/kressnick25/xk6-ldap
 go 1.23.0
 
 require (
-	github.com/go-ldap/ldap/v3 v3.4.9
+	github.com/go-ldap/ldap/v3 v3.4.11
 	github.com/stretchr/testify v1.10.0
 	go.k6.io/k6 v1.0.0
 )
@@ -16,7 +16,7 @@ require (
 	github.com/evanw/esbuild v0.25.3 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
-	github.com/go-asn1-ber/asn1-ber v1.5.7 // indirect
+	github.com/go-asn1-ber/asn1-ber v1.5.8-0.20250403174932-29230038a667 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
