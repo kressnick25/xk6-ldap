@@ -1,6 +1,6 @@
 module github.com/kressnick25/xk6-ldap
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/go-ldap/ldap/v3 v3.4.11
