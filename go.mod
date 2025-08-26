@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/go-ldap/ldap/v3 v3.4.11
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 	go.k6.io/k6 v1.2.2
 )
 
