@@ -3,7 +3,7 @@ module github.com/kressnick25/xk6-ldap
 go 1.24.0
 
 require (
-	github.com/go-ldap/ldap/v3 v3.4.11
+	github.com/go-ldap/ldap/v3 v3.4.12
 	github.com/stretchr/testify v1.11.1
 	go.k6.io/k6 v1.3.0
 )
