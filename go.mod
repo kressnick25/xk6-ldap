@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/go-ldap/ldap/v3 v3.4.12
 	github.com/stretchr/testify v1.11.1
-	go.k6.io/k6 v1.4.1
+	go.k6.io/k6 v1.4.2
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
 	github.com/google/pprof v0.0.0-20230728192033-2ba5b33183c6 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/grafana/sobek v0.0.0-20251030131753-d05c9166857d // indirect
+	github.com/grafana/sobek v0.0.0-20251124090928-9a028a30ff58 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.2 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
