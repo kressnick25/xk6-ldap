@@ -147,6 +147,7 @@ go.k6.io/k6 v1.4.1 h1:YhxpZDVLRspsMhmi+dy2YRrfBq48KJgB6lDhsv1/Qks=
 go.k6.io/k6 v1.4.1/go.mod h1:+aWtcQ7QR7jkzKCa1MSu9DFXcHGfDN7J8e9+y47AHd0=
 go.k6.io/k6 v1.8.0 h1:HZdpga8CSS/+cMd/LWYEw89cxZfOtMSZolaEYw203o8=
 go.k6.io/k6 v1.8.0/go.mod h1:FL46tTgVg1lHYF2Z7gb6xYYudiJczGm/hBWGOgC66vE=
+go.k6.io/k6/v2 v2.1.0 h1:tMdUG9z0aBIL1eWIWlvSXke4rh0yA2x2KsilF0FycJI=
 go.k6.io/k6/v2 v2.1.0/go.mod h1:0xhbdfFEdP7WM7YE7/QeL8seWC4l1kVEFsCD1J6mPPU=
 go.opentelemetry.io/auto/sdk v1.2.1 h1:jXsnJ4Lmnqd11kwkBV2LgLoFMZKizbCi5fNZ/ipaZ64=
 go.opentelemetry.io/auto/sdk v1.2.1/go.mod h1:KRTj+aOaElaLi+wW1kO/DZRXwkF4C5xPbEe3ZiIhN7Y=
