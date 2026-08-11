@@ -1,11 +1,13 @@
 package ldap
 
 import (
+	"context"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -53,7 +55,10 @@ func TestExamplesInputOutput(t *testing.T) {
 			t.Run(name, func(t *testing.T) {
 				t.Parallel()
 
-				cmd := exec.Command("./k6", "run", "--log-output=stdout", file) /* #nosec G204 */
+				ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+				defer cancel()
+
+				cmd := exec.CommandContext(ctx, "./k6", "run", "--log-output=stdout", file) /* #nosec G204 */
 				var stdout, stderr strings.Builder
 				cmd.Stdout = &stdout
 				cmd.Stderr = &stderr
