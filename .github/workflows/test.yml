@@ -26,7 +26,7 @@ jobs:
         run: make build
 
       - name: Start LDAP container for tests
-        uses: hoverkraft-tech/compose-action@v3.0.0
+        uses: hoverkraft-tech/compose-action@ee6af68587292d72db67743171809c19787df4c9 # v3.1.0
         with:
           compose-file: "./test/compose.yaml"
 
